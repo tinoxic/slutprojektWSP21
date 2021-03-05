@@ -1,0 +1,14 @@
+h1 Welcome, register here!
+form action="/users/new" method="post"
+    p Username (Must be between 5 and 12 characters)
+    <input type="text" name="username" required>
+    p Password (Must contain atleast one uppercase and lowercase character + a digit. And at least 8 characters long)
+    <input type="password" name="password" required>
+    p Confirm Password
+    <input type="password" name="password_confirm" required>
+    p Phone (10 digits)
+    <input type="text" name="phone_number" required placeholder = "Example. 0708222333">
+    p Email 
+    <input type=email name="email" required placeholder= "Example. banan@gmail.se">
+    
+    input type="submit" value="Register"
