@@ -25,10 +25,11 @@ post('/login') do
     result = db.execute("SELECT * FROM users WHERE username = ?", username).first
     password_digest = result["password_digest"]
     id = result["id"]
+    p id
 
     if BCrypt::Password.new(password_digest) == password
-        session[:id] = id
-        redirect('/home')
+        session[:user_id] = id
+        redirect('/items/index')
       else
         "FEL LÖSENORD"
       end
@@ -53,8 +54,19 @@ post('/users/new') do
     redirect('/')
 
     else
-        p "Oops something went wrong, please try again!"
+        "Oops something went wrong, please try again!"
 end
 end
 
+get('/items/index') do
+    slim(:"items/index")
+end
+
+get('/items/new') do
+    if not_auth(session[:user_id])
+        redirect('/items/index')
+    end
+    categories = get_from_db("*","Categories",nil,nil)
+    slim(:"items/new", locals:{categories: categories})
+end
 

@@ -7,6 +7,17 @@ html lang="en"
         title Document
     body
         nav
+            a href="/items/index" Home #{session[:user_id].to_s}!
+            - if session[:user_id] != nil
+                form action="/logout" method="post"
+                    input type="submit" value="Logout"
+                a href="/users/show/#{session[:user_id]}" My items
+                a href="/items/new" Create new ad
+                a href="#" Welcome back #{session[:user_id]}!
+                - if session[:rank] == "admin"
+                a href="/admin" Admin page
+                
+            -else
             a href="/login" Login
             a href="/users/new" Register
 

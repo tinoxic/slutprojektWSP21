@@ -1,0 +1,38 @@
+h2 Skapa en ny annons
+
+form action="/items/new" method="post"
+    p Name your item
+    input type="text" name="name"
+    p Describe your item
+    input type="text" name="desc"
+    p Whats your price?
+    input type="text" name="price"
+    p Where is the item being sold?
+    input type="text" name="location"
+    p Do you want your item to be posted now?
+    <input type="checkbox" name="public" checked>
+    p Please post a photo of your item here
+    <input type="file" name="img" accept='image/*'>
+
+    br/
+    br/
+        select name="category1"
+            <option disabled selected> Select category 1
+            -categories.each do |category|
+                option value="#{category["category_id"]}" #category["name"]}
+
+        select name="category2"
+            <option disabled selected> Select category 2
+            -categories.each do |category|
+                option value="#{category["category_id"]}" #category["name"]}
+
+        select name="category3"
+            <option disabled selected> Select category 3
+            -categories.each do |category|
+                option value="#{category["category_id"]}" #category["name"]}
+
+br/
+
+input type="submit" value="Publish"
+- if session[:item_creation_feedback] !=nil
+    p = session[:item_creation_feedback]
