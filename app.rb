@@ -24,8 +24,7 @@ post('/login') do
     db.results_as_hash = true
     result = db.execute("SELECT * FROM users WHERE username = ?", username).first
     password_digest = result["password_digest"]
-    id = result["id"]
-    p id
+    id = result["user_id"]
 
     if BCrypt::Password.new(password_digest) == password
         session[:user_id] = id
