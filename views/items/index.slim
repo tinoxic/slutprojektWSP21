@@ -1,4 +1,21 @@
-form action="/" method="get" class="searchBox"
-    input class="searchInput" type="text" name="search_value" placeholder="Search here!"
-    button class="searchButton" href="#"
-        img src="img/search_bar.svg" alt=""
+/ form action="/" method="get" class="searchBox"
+/     input class="searchInput" type="text" name="search_value" placeholder="Search here!"
+/     button class="searchButton" href="#"
+/         img src="img/search.svg" alt=""
+
+div class="wrapper"
+    / -if defined?(search_results) && search_results != nil
+    -items.each do |item|
+        a class="container" href="/items/#{item["item_id"]}"
+                    img src="img/items_img/#{item["image"]}" alt=""
+                    h2 = item["name"]
+                    p = item["description"]
+                    h4  Price #{item["price"]} KR
+                    h4 Seller #{item["user_id"]}
+                    - if item["bought"] == "yes"
+                        img id="sold" src="/img/sold.png" alt="sold" srcset=""
+                    h4 Location: #{item["location"]}
+                    
+                    form action="/items/delete/#{item["item_id"]}" method="POST"
+                        input type="submit" value="Delete"
+        

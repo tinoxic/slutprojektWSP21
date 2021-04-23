@@ -4,21 +4,22 @@ html lang="en"
         meta charset="UTF-8"/
         meta name="viewport" content="width=device-width, initial-scale=1.0"/
         meta http-equiv="X-UA-Compatible" content="ie=edge"/
+        link rel="stylesheet" href="/css/style.css"
         title Document
     body
         nav
-            a href="/items/index" Home #{session[:user_id].to_s}!
-            - if session[:user_id] != nil
+            a href="/items/index" Home
+            - if session[:user_id] == nil
+                a href="/login" Login
+                a href="/users/new" Register
+
+                - if session[:rank] == "admin"
+                a href="/admin" Admin page
+            -else
                 form action="/logout" method="post"
                     input type="submit" value="Logout"
                 a href="/users/show/#{session[:user_id]}" My items
                 a href="/items/new" Create new ad
-                a href="#" Welcome back #{session[:user_id]}!
-                - if session[:rank] == "admin"
-                a href="/admin" Admin page
-                
-            -else
-            a href="/login" Login
-            a href="/users/new" Register
+                p Welcome back #{session[:user_id]}
 
         ==yield

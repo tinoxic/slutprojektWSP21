@@ -1,38 +1,26 @@
+<!DOCTYPE html>
+html lang="en"
+    head
+        meta charset="UTF-8"/
+        meta name="viewport" content="width=device-width, initial-scale=1.0"/
+        meta http-equiv="X-UA-Compatible" content="ie=edge"/
+        link rel="stylesheet" href="/css/style.css"
+        title Document
+    body
+
 h2 Skapa en ny annons
 
 form action="/items/new" method="post"
     p Name your item
     input type="text" name="name"
     p Describe your item
-    input type="text" name="desc"
+    input type="text" name="description"
     p Whats your price?
     input type="text" name="price"
     p Where is the item being sold?
     input type="text" name="location"
-    p Do you want your item to be posted now?
-    <input type="checkbox" name="public" checked>
     p Please post a photo of your item here
-    <input type="file" name="img" accept='image/*'>
-
-    br/
-    br/
-        select name="category1"
-            <option disabled selected> Select category 1
-            -categories.each do |category|
-                option value="#{category["category_id"]}" #category["name"]}
-
-        select name="category2"
-            <option disabled selected> Select category 2
-            -categories.each do |category|
-                option value="#{category["category_id"]}" #category["name"]}
-
-        select name="category3"
-            <option disabled selected> Select category 3
-            -categories.each do |category|
-                option value="#{category["category_id"]}" #category["name"]}
-
-br/
-
-input type="submit" value="Publish"
-- if session[:item_creation_feedback] !=nil
+    input type="file" name="image" accept='image/*'
+    input type="submit" value="Publish"
+    - if session[:item_creation_feedback] !=nil
     p = session[:item_creation_feedback]

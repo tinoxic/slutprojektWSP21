@@ -4,6 +4,7 @@ require "sqlite3"
 require "bcrypt"
 require "byebug"
 
+
 enable :sessions
 
 db = SQLite3::Database.new("databas/databas.db")
@@ -50,7 +51,7 @@ post('/users/new') do
     password_digest = BCrypt::Password.create(password)
     db = SQLite3::Database.new('databas/databas.db')
     db.execute("INSERT INTO users (username,password_digest,email,phone_number) VALUES (?,?,?,?)",username,password_digest,email,phone_number)
-    redirect('/')
+    redirect('/login')
 
     else
         "Oops something went wrong, please try again!"
@@ -58,14 +59,40 @@ end
 end
 
 get('/items/index') do
-    slim(:"items/index")
+    db = SQLite3::Database.new("databas/databas.db")
+    db.results_as_hash = true
+    result = db.execute("SELECT * FROM item")
+    slim(:"items/index", locals: {items: result})
 end
 
 get('/items/new') do
-    if not_auth(session[:user_id])
-        redirect('/items/index')
-    end
-    categories = get_from_db("*","Categories",nil,nil)
-    slim(:"items/new", locals:{categories: categories})
+    slim(:"items/new")
 end
 
+post('/items/new') do
+    name = params[:name]
+    description = params[:description]
+    price = params[:price]
+    location = params[:location]
+    image = params[:image]
+    user_id = session[:user_id]
+
+    db = SQLite3::Database.new("databas/databas.db")
+    db.results_as_hash = true
+    
+    db.execute("INSERT INTO item (name, user_id, description, price, location, image) VALUES(?,?,?,?,?,?)",name, user_id, description, price, location, image)
+    redirect('/items/index')
+end
+
+post("/logout") do
+    session.destroy
+    redirect('/')
+end
+
+post('/items/delete/:item') do
+    id = params[:item].to_i
+    user_id = session[:user_id].to_i
+    db = SQLite3::Database.new("databas/databas.db")
+    db.execute("DELETE FROM item WHERE item_id = ?",id)
+    redirect('/items/index')
+end
